@@ -4,7 +4,7 @@ import BusinessList from './components/BusinessList';
 // import Business from './components/Business'
 import React, {useState, useEffect} from 'react';
 import axios from 'axios';
-import DropdownZipcode from './components/DropdownZipcode';
+import DropdownZipcode from './components/DropDownZipcode';
 import DropDownCategory from './components/DropDownCategory';
 
 
