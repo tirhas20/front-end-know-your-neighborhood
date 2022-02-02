@@ -1,11 +1,13 @@
 import './App.css';
 import BusinessForm from './components/BusinessForm'
 import BusinessList from './components/BusinessList';
-// import Business from './components/Business'
 import React, {useState, useEffect} from 'react';
 import axios from 'axios';
 import DropdownZipcode from './components/DropDownZipcode';
 import DropDownCategory from './components/DropDownCategory';
+import FavoriteList from './components/FavoriteBusinessList';
+// import {useAuth0} from '@auth0/auth0-react';
+
 
 
 
@@ -15,6 +17,7 @@ function App() {
   const [businesses, setBusinesses] = useState([]);
   const [selectedZipcode , setSelectedZipcode] = useState("")
   const [selectedCategory , setSelectedCategory] = useState("")
+  // const [favoriteBusinesses, setFavoriteBusinesses] = useState([]);
 
   
 // Get all businesses
@@ -33,6 +36,7 @@ function App() {
             zipcode: business.zipcode,
             website: business.website,
             category: business.category,
+            like_count:business.like_count,
 
           };
         });
@@ -65,6 +69,8 @@ function App() {
         zipcode:businessInfo.zipcode,
         website:businessInfo.website,
         category:businessInfo.category,
+        like_count:businessInfo.like_count
+
 
       })
       .then((response) =>{
@@ -78,6 +84,8 @@ function App() {
         zipcode:businessInfo.zipcode,
         website:businessInfo.website,
         category:businessInfo.category,
+        like_count:businessInfo.like_count
+
 
         };
         businessInfo.id = response.data.id;
@@ -88,6 +96,24 @@ function App() {
         console.log(error.response.data)
       });
   }
+
+  const onDeleteBusiness = (id) =>{
+    console.log("I need to delete this")
+    axios
+    .delete(`${URL}/businesses/${id}`)
+    .then((response) =>{
+      const updatedBusinesses = [...businesses]
+      const newBusiness = updatedBusinesses.filter((business)=> business.id !== response.data.id)
+      setBusinesses(newBusiness)
+    })
+    .catch((error) =>{
+      console.log(error.response.data);
+    });
+  };
+
+
+  // const {isLoading} = useAuth0();
+  // if(isLoading) return <div>Loading...</div>
 
 
 
@@ -106,7 +132,15 @@ function App() {
       </div>
       <div className="businesses-container">
         <h2>Business Sectors</h2>
-        <BusinessList businesses={businesses} selectedZipcode={selectedZipcode} selectedCategory={selectedCategory}/>
+        <BusinessList businesses={businesses} 
+        selectedZipcode={selectedZipcode} 
+        selectedCategory={selectedCategory}
+        onDeleteBusiness={onDeleteBusiness}
+        // onAddFavoriteBusiness={onAddFavoriteBusiness}
+        />
+      </div>
+      <div>
+        <FavoriteList businesses={businesses}/>
       </div>
     </div>
   );

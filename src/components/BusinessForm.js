@@ -55,6 +55,10 @@ const BusinessForm = (props)=> {
         setFormFields({...formFields,
         category: event.target.value})
     }
+    const onLike_countChange = (event) =>{
+        setFormFields({...formFields,
+        like_count: event.target.value})
+    }
 
     return (
         <div className='business-form-container'>
@@ -96,6 +100,11 @@ const BusinessForm = (props)=> {
                     required 
                     value={formFields.category}
                     onChange={onCategoryChange}/>
+                <label> Like_count</label>
+                <input type="text" 
+                required 
+                value={formFields.like_count}
+                onChange={onLike_countChange}/>
                 <br/>
                 <button className="submit-button" type="button">Add Business</button>
             </form>

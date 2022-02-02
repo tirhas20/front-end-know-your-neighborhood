@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import Business from './Business'
 import './BusinessList.css';
 
-const getBusinessListJSX = (businesses, filterZipcode, filterCategory)=>{
+const getBusinessListJSX = (businesses, filterZipcode, filterCategory,onDeleteBusiness,onAddFavoriteBusiness)=>{
   if (filterZipcode && filterCategory){
     businesses=businesses
   .filter((business)=>business.zipcode===filterZipcode)
@@ -29,12 +29,16 @@ const getBusinessListJSX = (businesses, filterZipcode, filterCategory)=>{
       zipcode={business.zipcode} 
       website={business.website}
       category={business.category}
+      like_count={business.like_count}
+      onDeleteBusiness={onDeleteBusiness}
+      onAddFavoriteBusiness={onAddFavoriteBusiness}
+
 
       />
     );
 };
 
-const BusinessList = ({businesses,selectedZipcode,selectedCategory})=> {
+const BusinessList = ({businesses,selectedZipcode,selectedCategory,onDeleteBusiness,onAddFavoriteBusiness})=> {
 
   return (
     <div className="table-wrapper">
@@ -46,11 +50,13 @@ const BusinessList = ({businesses,selectedZipcode,selectedCategory})=> {
             <th>Address</th>
             <th>Website</th>
             <th>Category</th>
-            <th>Like</th>
+            <th>Like_count</th>
+            <th>Delete</th>
+            <th>Action</th>
         </tr>
         </thead>
         <tbody>
-          {getBusinessListJSX(businesses,selectedZipcode,selectedCategory)}
+          {getBusinessListJSX(businesses,selectedZipcode,selectedCategory,onDeleteBusiness,onAddFavoriteBusiness)}
       </tbody>
     </table>
     </div>
@@ -65,10 +71,14 @@ BusinessList.prototype ={
       city:PropTypes.string.isRequired,
       state:PropTypes.string.isRequired,
       website:PropTypes.string.isRequired,
-      category:PropTypes.string.isRequired
+      like_count:PropTypes.number.isRequired,
+      category:PropTypes.string.isRequired,
+      
     })
 
-  ).isRequired
+  ).isRequired,
+  onDeleteBusiness:PropTypes.func.isRequired,
+  onAddFavoriteBusiness:PropTypes.func.isRequired,
 };
 
 export default BusinessList;

@@ -30,7 +30,8 @@ DropdownZipcode.prototype ={
         city:PropTypes.string.isRequired,
         state:PropTypes.string.isRequired,
         website:PropTypes.string.isRequired,
-        category:PropTypes.string.isRequired
+        category:PropTypes.string.isRequired,
+        like_count:PropTypes.number.isRequired
         })
     
     ).isRequired,
