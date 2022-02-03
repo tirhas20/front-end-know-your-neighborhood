@@ -14,11 +14,14 @@ const DropdownZipcode = ({businesses, value, onChange})=> {
 
 
     return (
-        <select className='dropdown-zipcode' value={value} onChange={onChange}>
+        <span className="dropdown-zipcode">
+            <label>select Zipcode: </label>
+            <select className='dropdown-zipcode' value={value} onChange={onChange}>
 
-            <option label="select an option "></option>
-            {newZipcode}
-        </select>
+                <option label="select an option "></option>
+                {newZipcode}
+            </select>
+        </span>
     )
 }
 DropdownZipcode.prototype ={

@@ -6,7 +6,11 @@ import axios from 'axios';
 import DropdownZipcode from './components/DropDownZipcode';
 import DropDownCategory from './components/DropDownCategory';
 import FavoriteList from './components/FavoriteBusinessList';
-// import {useAuth0} from '@auth0/auth0-react';
+import {BrowserRouter,Routes,Route} from 'react-router-dom';
+import {useAuth0} from '@auth0/auth0-react';
+import Profile from './components/Profile'
+import Home from './components/Home'
+import NavBar from './components/NavBar';
 
 
 
@@ -111,39 +115,68 @@ function App() {
     });
   };
 
+  const onAddFavoriteBusiness = (id) =>{
+    axios
+      .patch(`${URL}/businesses/${id}/like`)
+      .then((response) =>{
+        const updatedBusinessessLike_count = [...businesses];
+        for(let business of businesses){
+          if(id===business.id){
+            business.like_count=response.data.like_count;
+            }
+          }
+          setBusinesses(updatedBusinessessLike_count);
+        })
+        .catch((error) =>{
+          console.log(error.response.data);
 
-  // const {isLoading} = useAuth0();
-  // if(isLoading) return <div>Loading...</div>
+        });
+      }
+
+      const onRemoveBusinessFromFavorite = (id) =>{
+        axios
+          .patch(`${URL}/businesses/${id}/dislike`)
+          .then((response) =>{
+            const newUpdateLike_count = [...businesses];
+            for(let business of businesses){
+              if(id===business.id){
+                business.like_count=response.data.like_count;
+                }
+              }
+              setBusinesses(newUpdateLike_count);
+            })
+            .catch((error) =>{
+              console.log(error.response.data);
+    
+            });
+          }
+
+
+  const {isLoading} = useAuth0();
+  if(isLoading) return <div>Loading...</div>
 
 
 
   return (
-    <div className="App">
-      <h1>Know Your Neighborhood</h1>
-      <div>
-        <BusinessForm onClickAddBusiness={addNewBusiness}/>
-      </div>
-      <br/>
-      <div className= "search_by">
-        <label> Select Zipcode: </label>
-        <DropdownZipcode businesses={businesses} value={selectedZipcode} onChange={handleZipcode}/>
-        <label> select Category: </label>
-        <DropDownCategory businesses={businesses} value={selectedCategory} onChangeCategory={handleCategory}/>
-      </div>
-      <div className="businesses-container">
-        <h2>Business Sectors</h2>
-        <BusinessList businesses={businesses} 
-        selectedZipcode={selectedZipcode} 
-        selectedCategory={selectedCategory}
-        onDeleteBusiness={onDeleteBusiness}
-        // onAddFavoriteBusiness={onAddFavoriteBusiness}
-        />
-      </div>
-      <div>
-        <FavoriteList businesses={businesses}/>
-      </div>
-    </div>
-  );
+    
+      <BrowserRouter>
+        <NavBar/>
+          <Routes>
+            <Route path="/" element={<Home/>}/>
+              <Route path="/resources" element={<><DropdownZipcode businesses={businesses} value={selectedZipcode} onChange={handleZipcode}/>
+                                      <DropDownCategory businesses={businesses} value={selectedCategory} onChangeCategory={handleCategory}/>
+                                      <BusinessList businesses={businesses} 
+                                          selectedZipcode={selectedZipcode} 
+                                          selectedCategory={selectedCategory} 
+                                          onDeleteBusiness={onDeleteBusiness}
+                                          onAddFavoriteBusiness={onAddFavoriteBusiness}/></>}/>
+              <Route path="/form" element={ <BusinessForm onClickAddBusiness={addNewBusiness}/>}/>
+              <Route path="/favorite" element={<FavoriteList businesses={businesses}
+              onRemoveBusinessFromFavorite={onRemoveBusinessFromFavorite}/>}/>
+              <Route path="/profile" element={<Profile/>}/>
+          </Routes>
+      </BrowserRouter>
+    );
 }
 
 export default App;

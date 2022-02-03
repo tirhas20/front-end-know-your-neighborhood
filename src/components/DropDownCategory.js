@@ -7,10 +7,14 @@ const DropDownCategory = ({businesses, value, onChangeCategory}) => {
     <option key ={category} >{category}</option>
     ));
     return (
-        <select className="dropdown-category" value={value} onChange={onChangeCategory}>
-            <option label="select an option "></option>
-            {newCategory}
-        </select>
+        <span className="dropdown-category">
+            <label>select Category:</label>
+            <select value={value} onChange={onChangeCategory}>
+                <option label="select an option "></option>
+                {newCategory}
+            </select>
+        
+        </span>
     )
 }
 DropDownCategory.propTypes={
