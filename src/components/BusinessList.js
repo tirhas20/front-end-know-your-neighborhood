@@ -17,8 +17,8 @@ const getBusinessListJSX = (businesses, filterZipcode, filterCategory,onDeleteBu
   }
   
   return businesses
-  .map((business)=>
-    
+  .map((business)=>{
+    return(
     <Business 
       key={business.id} 
       id={business.id} 
@@ -32,9 +32,9 @@ const getBusinessListJSX = (businesses, filterZipcode, filterCategory,onDeleteBu
       like_count={business.like_count}
       onDeleteBusiness={onDeleteBusiness}
       onAddFavoriteBusiness={onAddFavoriteBusiness}
-
-
       />
+    )
+  }
     );
 };
 
@@ -50,9 +50,10 @@ const BusinessList = ({businesses,selectedZipcode,selectedCategory,onDeleteBusin
             <th>Address</th>
             <th>Website</th>
             <th>Category</th>
-            <th>Like_count</th>
+            {/* <th>Like_count</th> */}
+            <th>Edit</th>
             <th>Delete</th>
-            <th>Action</th>
+            <th>Like</th>
         </tr>
         </thead>
         <tbody>

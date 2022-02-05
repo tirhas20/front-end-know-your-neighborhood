@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from "prop-types";
 import './Business.css'
+import {Link} from 'react-router-dom';
+
 
 const Business = ({id, name, street, city, state, zipcode, website, category,like_count, onDeleteBusiness, onAddFavoriteBusiness})=> {
 
@@ -13,12 +15,17 @@ const Business = ({id, name, street, city, state, zipcode, website, category,lik
                 <a href={website} target="blank">{website}</a>
             </td>
             <td>{category}</td>
-            <td>{like_count}</td>
+            {/* <td>{like_count}</td> */}
+            <td>
+                <Link to={`/update/${id}`}>
+                <button className="update-business">Update</button>
+                </Link>
+            </td>
             <td>
                 <button onClick={()=>onDeleteBusiness(id)}>Delete</button>
             </td>
             <td>
-                <button onClick={()=>onAddFavoriteBusiness(id)}>Add To Favorites</button>
+                <button onClick={()=>onAddFavoriteBusiness(id)}>Add To Favorite</button>
             </td>
         </tr>
     )

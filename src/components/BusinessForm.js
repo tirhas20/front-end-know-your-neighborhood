@@ -1,4 +1,5 @@
 import React, {useState} from 'react';
+import { useNavigate } from "react-router-dom";
 import PropTypes from 'prop-types';
 import './BusinessForm.css';
 
@@ -15,11 +16,18 @@ const BusinessForm = (props)=> {
 
         }
     )
+
+    const navigate = useNavigate();
+    const routeChange = () =>{ 
+        let path = `/resources`; 
+        navigate(path);
+        }
     
 
     const onFormSubmit = (event) =>{
         event.preventDefault();
         props.onClickAddBusiness(formFields)
+        routeChange()
     }
     const onNameChange = (event) =>{
         setFormFields({...formFields,

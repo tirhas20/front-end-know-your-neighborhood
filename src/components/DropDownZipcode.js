@@ -7,10 +7,10 @@ const DropdownZipcode = ({businesses, value, onChange})=> {
     console.log(businesses)
     
 
-    const uniqueZipcode = [...new Set(businesses.map(business => business.zipcode))]
-    const newZipcode = uniqueZipcode.map((zipcode)=>(
-    <option key = {zipcode}>{zipcode}</option>
-    ));
+    const uniqueZipcode = [...new Set(businesses.map(business =>{ return business.zipcode}))]
+    const newZipcode = uniqueZipcode.map((zipcode)=>{
+        return <option key = {zipcode}>{zipcode}</option>
+    });
 
 
     return (
@@ -18,7 +18,7 @@ const DropdownZipcode = ({businesses, value, onChange})=> {
             <label>select Zipcode: </label>
             <select className='dropdown-zipcode' value={value} onChange={onChange}>
 
-                <option label="select an option "></option>
+                <option label="All"></option>
                 {newZipcode}
             </select>
         </span>

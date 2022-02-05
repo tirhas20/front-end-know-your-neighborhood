@@ -6,6 +6,7 @@ import axios from 'axios';
 import DropdownZipcode from './components/DropDownZipcode';
 import DropDownCategory from './components/DropDownCategory';
 import FavoriteList from './components/FavoriteBusinessList';
+import EditBusiness from './components/EditBusiness'
 import {BrowserRouter,Routes,Route} from 'react-router-dom';
 import {useAuth0} from '@auth0/auth0-react';
 import Profile from './components/Profile'
@@ -151,6 +152,42 @@ function App() {
             });
           }
 
+      const onUpdateBusiness = (editedBusiness) =>{
+        axios
+          .patch(`${URL}/businesses/${editedBusiness.id}`,{
+                id:editedBusiness.id,
+                name:editedBusiness.name,
+                street:editedBusiness.street,
+                city: editedBusiness.city,
+                state: editedBusiness.state,
+                zipcode: editedBusiness.zipcode,
+                website: editedBusiness.website,
+                category: editedBusiness.category,
+                like_count: editedBusiness.like_count,
+              }
+          )
+          .then((response) =>{
+            const updateBusinesses = [...businesses];
+            for(let business of updateBusinesses){
+              if(editedBusiness.id ===business.id){
+                business.id = response.data.id;
+                business.name = response.data.name;
+                business.street=response.data.street;
+                business.city = response.data.city;
+                business.state = response.data.state;
+                business.zipcode = response.data.zipcode;
+                business.website = response.data.website;
+                business.category = response.data.category;
+                business.like_count = response.data.like_count;
+              }
+            }
+            setBusinesses(updateBusinesses);
+          })
+          .catch((error) =>{
+            console.log(error.response.data)
+          })
+      }
+
 
   const {isLoading} = useAuth0();
   if(isLoading) return <div>Loading...</div>
@@ -171,6 +208,7 @@ function App() {
                                           onDeleteBusiness={onDeleteBusiness}
                                           onAddFavoriteBusiness={onAddFavoriteBusiness}/></>}/>
               <Route path="/form" element={ <BusinessForm onClickAddBusiness={addNewBusiness}/>}/>
+              <Route path="/update/:id" element={ <EditBusiness onClickUpdateBusiness={onUpdateBusiness} businesses={businesses}/>}/>
               <Route path="/favorite" element={<FavoriteList businesses={businesses}
               onRemoveBusinessFromFavorite={onRemoveBusinessFromFavorite}/>}/>
               <Route path="/profile" element={<Profile/>}/>

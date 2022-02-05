@@ -2,15 +2,15 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 const DropDownCategory = ({businesses, value, onChangeCategory}) => {
-    const uniqueCategory = [...new Set(businesses.map(business => business.category))]
-    const newCategory = uniqueCategory.map((category)=>(
-    <option key ={category} >{category}</option>
-    ));
+    const uniqueCategory = [...new Set(businesses.map(business =>{return business.category}))]
+    const newCategory = uniqueCategory.map((category)=>{
+    return <option key ={category} >{category}</option>
+    });
     return (
         <span className="dropdown-category">
             <label>select Category:</label>
             <select value={value} onChange={onChangeCategory}>
-                <option label="select an option "></option>
+                <option label="All"></option>
                 {newCategory}
             </select>
         
