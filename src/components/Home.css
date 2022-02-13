@@ -3,3 +3,11 @@
     text-align: center;
     padding-top:50px;
 }
+.neighborhood-image{
+    Display: flex;
+    Height: 50vh;
+    Width: 50vw; 
+    align-self: center;
+    margin-left: 15%;
+    margin-top: 40px;
+}

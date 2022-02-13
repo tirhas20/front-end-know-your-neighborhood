@@ -1,5 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import './FavoriteBusinessList.css'
+import { useAuth0, withAuthenticationRequired } from '@auth0/auth0-react';
+import Loading from './Loading'
 
 
 const getFavoriteBusinessListJSX = (businesses,result,onRemoveBusinessFromFavorite) =>{
@@ -16,17 +19,18 @@ const getFavoriteBusinessListJSX = (businesses,result,onRemoveBusinessFromFavori
                 <td>{business.category}</td>
                 <td>{business.like_count}</td>
                 <td>
-                    <button onClick={() =>onRemoveBusinessFromFavorite(business.id)}>Remove</button>
+                    <button className="remove-business" onClick={() =>onRemoveBusinessFromFavorite(business.id)}>Remove</button>
                 </td>
             </tr>
-
         ) 
     )  
 }; 
 
 const FavoriteList = ({businesses,favoriteLike_count,onRemoveBusinessFromFavorite}) => {
+    const {  isAuthenticated } = useAuth0();
     
     return( 
+        isAuthenticated &&(
         <div className="table-wrapper">
             <h2>Favorite Businesses</h2>
             <table className="fl-table">
@@ -47,6 +51,7 @@ const FavoriteList = ({businesses,favoriteLike_count,onRemoveBusinessFromFavorit
             </table>
         </div>  
     )
+    )
 }
 FavoriteList.prototype = {
     favoriteBusinesses: PropTypes.arrayOf(
@@ -65,4 +70,6 @@ FavoriteList.prototype = {
     onRemoveBusinessFromFavorite:PropTypes.func.isRequired,
 }
 
-export default FavoriteList;
+export default withAuthenticationRequired(FavoriteList, {
+    onRedirecting: () => <Loading />,
+    });

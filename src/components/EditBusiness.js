@@ -4,9 +4,6 @@ import './EditBusiness.css'
 import { useParams } from 'react-router-dom';
 import { useNavigate } from "react-router-dom";
 
-
-
-
 const EditBusiness = ({ businesses, onClickUpdateBusiness }) => {
     const { id } = useParams();
     const [selectedBusiness, setSelectedBusiness] = useState(() => {

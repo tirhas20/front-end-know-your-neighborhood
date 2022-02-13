@@ -14,20 +14,16 @@ import Home from './components/Home'
 import NavBar from './components/NavBar';
 
 
-
-
 export const URL = "https://know-your-neighborhood.herokuapp.com/";
 
 function App() {
   const [businesses, setBusinesses] = useState([]);
   const [selectedZipcode , setSelectedZipcode] = useState("")
   const [selectedCategory , setSelectedCategory] = useState("")
-  // const [favoriteBusinesses, setFavoriteBusinesses] = useState([]);
-
+  const { getAccessTokenSilently } = useAuth0();
   
-// Get all businesses
+
   useEffect(() => {
-   
     axios
       .get(`${URL}/businesses`)
       .then((response)=>{
@@ -64,7 +60,13 @@ function App() {
     setSelectedCategory(newCategory)
   }
 
-  const addNewBusiness = (businessInfo) =>{
+  const addNewBusiness = async (businessInfo) =>{
+    const token = await getAccessTokenSilently();
+    const headers = {
+      headers: {
+          Authorization: `Bearer ${token}`,
+      },
+    }
     axios
       .post(`${URL}/businesses`,{
         name:businessInfo.name,
@@ -75,9 +77,9 @@ function App() {
         website:businessInfo.website,
         category:businessInfo.category,
         like_count:businessInfo.like_count
-
-
-      })
+      },
+      headers
+      )
       .then((response) =>{
         const newBusinesses = [...businesses]
         const newBusiness = {
@@ -90,8 +92,6 @@ function App() {
         website:businessInfo.website,
         category:businessInfo.category,
         like_count:businessInfo.like_count
-
-
         };
         businessInfo.id = response.data.id;
         newBusinesses.push(newBusiness);
@@ -102,10 +102,15 @@ function App() {
       });
   }
 
-  const onDeleteBusiness = (id) =>{
-    console.log("I need to delete this")
+  const onDeleteBusiness = async (id) =>{
+    const token = await getAccessTokenSilently();
     axios
-    .delete(`${URL}/businesses/${id}`)
+    .delete(`${URL}/businesses/${id}`,
+    {
+      headers: {
+          Authorization: `Bearer ${token}`, 
+        },
+    })
     .then((response) =>{
       const updatedBusinesses = [...businesses]
       const newBusiness = updatedBusinesses.filter((business)=> business.id !== response.data.id)
@@ -130,7 +135,6 @@ function App() {
         })
         .catch((error) =>{
           console.log(error.response.data);
-
         });
       }
 
@@ -152,7 +156,14 @@ function App() {
             });
           }
 
-      const onUpdateBusiness = (editedBusiness) =>{
+      const onUpdateBusiness = async (editedBusiness) =>{
+        const token = await getAccessTokenSilently()
+        const headers = {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+        console.log("headers",headers)
         axios
           .patch(`${URL}/businesses/${editedBusiness.id}`,{
                 id:editedBusiness.id,
@@ -164,7 +175,8 @@ function App() {
                 website: editedBusiness.website,
                 category: editedBusiness.category,
                 like_count: editedBusiness.like_count,
-              }
+              },
+              headers
           )
           .then((response) =>{
             const updateBusinesses = [...businesses];
@@ -188,20 +200,16 @@ function App() {
           })
       }
 
-
   const {isLoading} = useAuth0();
   if(isLoading) return <div>Loading...</div>
 
-
-
   return (
-    
       <BrowserRouter>
         <NavBar/>
           <Routes>
             <Route path="/" element={<Home/>}/>
-              <Route path="/resources" element={<><DropdownZipcode businesses={businesses} value={selectedZipcode} onChange={handleZipcode}/>
-                                      <DropDownCategory businesses={businesses} value={selectedCategory} onChangeCategory={handleCategory}/>
+              <Route path="/resources" element={<><div className='zipcode-category-container'><DropdownZipcode businesses={businesses} value={selectedZipcode} onChange={handleZipcode}/>
+                                      <DropDownCategory businesses={businesses} value={selectedCategory} onChangeCategory={handleCategory}/></div>
                                       <BusinessList businesses={businesses} 
                                           selectedZipcode={selectedZipcode} 
                                           selectedCategory={selectedCategory} 

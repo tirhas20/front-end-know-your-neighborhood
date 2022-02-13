@@ -2,6 +2,8 @@ import React, {useState} from 'react';
 import { useNavigate } from "react-router-dom";
 import PropTypes from 'prop-types';
 import './BusinessForm.css';
+import Loading from './Loading';
+import { withAuthenticationRequired } from '@auth0/auth0-react';
 
 const BusinessForm = (props)=> {
     const [formFields, setFormFields] = useState(
@@ -123,4 +125,6 @@ BusinessForm.prototype ={
     onClickAddBusiness: PropTypes.func.isRequired,
 }
 
-export default BusinessForm;
+export default withAuthenticationRequired(BusinessForm, {
+    onRedirecting: () => <Loading />,
+    });

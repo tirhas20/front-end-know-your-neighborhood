@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Business from './Business'
 import './BusinessList.css';
+import { useAuth0 } from '@auth0/auth0-react';
 
 const getBusinessListJSX = (businesses, filterZipcode, filterCategory,onDeleteBusiness,onAddFavoriteBusiness)=>{
   if (filterZipcode && filterCategory){
@@ -39,29 +40,53 @@ const getBusinessListJSX = (businesses, filterZipcode, filterCategory,onDeleteBu
 };
 
 const BusinessList = ({businesses,selectedZipcode,selectedCategory,onDeleteBusiness,onAddFavoriteBusiness})=> {
-
-  return (
-    <div className="table-wrapper">
-    <table className="fl-table">
-        <thead>
-        <tr>
-            <th>BusinessId</th>
-            <th>Name</th>
-            <th>Address</th>
-            <th>Website</th>
-            <th>Category</th>
-            {/* <th>Like_count</th> */}
-            <th>Edit</th>
-            <th>Delete</th>
-            <th>Like</th>
-        </tr>
-        </thead>
-        <tbody>
-          {getBusinessListJSX(businesses,selectedZipcode,selectedCategory,onDeleteBusiness,onAddFavoriteBusiness)}
-      </tbody>
-    </table>
-    </div>
-  )
+  const {  isAuthenticated } = useAuth0();
+  if(isAuthenticated){
+    return (
+      <div className="table-wrapper">
+        <h2>Business Sectors</h2>
+        <table className="fl-table">
+            <thead>
+            <tr>
+                <th>BusinessId</th>
+                <th>Name</th>
+                <th>Address</th>
+                <th>Website</th>
+                <th>Category</th>
+                <th>Edit</th>
+                <th>Delete</th>
+                <th>Like</th>
+                <th>Show on map</th>
+            </tr>
+            </thead>
+            <tbody>
+              {getBusinessListJSX(businesses,selectedZipcode,selectedCategory,onDeleteBusiness,onAddFavoriteBusiness)}
+          </tbody>
+        </table>
+      </div>
+    )
+  }else{
+    return(
+      <div className="table-wrapper">
+        <h2>Business Sectors</h2>
+        <table className="fl-table">
+            <thead>
+            <tr>
+                <th>BusinessId</th>
+                <th>Name</th>
+                <th>Address</th>
+                <th>Website</th>
+                <th>Category</th>
+                <th>Show on map</th>
+                </tr>
+            </thead>
+            <tbody>
+              {getBusinessListJSX(businesses,selectedZipcode,selectedCategory,onDeleteBusiness,onAddFavoriteBusiness)}
+          </tbody>
+        </table>
+      </div>
+    )
+  }
 }
 BusinessList.prototype ={
   businesses: PropTypes.arrayOf(

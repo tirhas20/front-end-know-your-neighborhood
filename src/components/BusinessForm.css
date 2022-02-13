@@ -1,9 +1,3 @@
-/* div {
-    border-radius: 5px;
-    background-color: #f2f2f2;
-    padding: 5px;
-
-} */
 .business-form-container{
     margin-left: 30px;
     padding-bottom: 20px;
@@ -37,12 +31,7 @@
     border-radius: 5px;
     font-size: 20px;
 }
-/* .business-form-container .form-fields{
-    display: flex;
-    flex-direction: column;
-    text-align:center;
-    width:30%;
-} */
+
 
 .business-form-container button {
     background-color:green;
@@ -52,13 +41,3 @@
     
 }
 
-/* .business-form-container button .submit-button{
-    background-color:green;
-    margin-left: 50px;
-
-}
-.business-form-container button .reset-button{
-    background-color:red;
-    margin-left: 70px;
-
-} */
