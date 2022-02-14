@@ -87,9 +87,10 @@ const BusinessList = ({businesses,selectedZipcode,rowsPerPage,selectedCategory,o
                 </tr>
             </thead>
             <tbody>
-              {getBusinessListJSX(businesses,selectedZipcode,selectedCategory,onDeleteBusiness,onAddFavoriteBusiness)}
+              {getBusinessListJSX(slice,selectedZipcode,selectedCategory,onDeleteBusiness,onAddFavoriteBusiness)}
           </tbody>
         </table>
+        <TableFooter range={range} slice={slice} setPage={setPage} page={page} />
       </div>
     )
   }
