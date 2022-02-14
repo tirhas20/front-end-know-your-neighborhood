@@ -210,7 +210,8 @@ function App() {
             <Route path="/" element={<Home/>}/>
               <Route path="/resources" element={<><div className='zipcode-category-container'><DropdownZipcode businesses={businesses} value={selectedZipcode} onChange={handleZipcode}/>
                                       <DropDownCategory businesses={businesses} value={selectedCategory} onChangeCategory={handleCategory}/></div>
-                                      <BusinessList businesses={businesses} 
+                                      <BusinessList businesses={businesses}
+                                          rowsPerPage={10}  
                                           selectedZipcode={selectedZipcode} 
                                           selectedCategory={selectedCategory} 
                                           onDeleteBusiness={onDeleteBusiness}

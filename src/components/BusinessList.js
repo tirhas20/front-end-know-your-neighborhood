@@ -1,8 +1,11 @@
-import React from 'react';
+import React,{useState} from 'react';
 import PropTypes from 'prop-types';
 import Business from './Business'
 import './BusinessList.css';
 import { useAuth0 } from '@auth0/auth0-react';
+import TableFormat from './TableFormat'
+import TableFooter from './TableFooter'
+
 
 const getBusinessListJSX = (businesses, filterZipcode, filterCategory,onDeleteBusiness,onAddFavoriteBusiness)=>{
   if (filterZipcode && filterCategory){
@@ -39,8 +42,10 @@ const getBusinessListJSX = (businesses, filterZipcode, filterCategory,onDeleteBu
     );
 };
 
-const BusinessList = ({businesses,selectedZipcode,selectedCategory,onDeleteBusiness,onAddFavoriteBusiness})=> {
+const BusinessList = ({businesses,selectedZipcode,rowsPerPage,selectedCategory,onDeleteBusiness,onAddFavoriteBusiness})=> {
   const {  isAuthenticated } = useAuth0();
+  const [page, setPage] = useState(1);
+  const { slice, range } = TableFormat(businesses, page, rowsPerPage);
   if(isAuthenticated){
     return (
       <div className="table-wrapper">
@@ -60,9 +65,10 @@ const BusinessList = ({businesses,selectedZipcode,selectedCategory,onDeleteBusin
             </tr>
             </thead>
             <tbody>
-              {getBusinessListJSX(businesses,selectedZipcode,selectedCategory,onDeleteBusiness,onAddFavoriteBusiness)}
+              {getBusinessListJSX(slice,selectedZipcode,selectedCategory,onDeleteBusiness,onAddFavoriteBusiness)}
           </tbody>
         </table>
+        <TableFooter range={range} slice={slice} setPage={setPage} page={page} />
       </div>
     )
   }else{

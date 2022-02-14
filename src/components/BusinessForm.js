@@ -15,6 +15,7 @@ const BusinessForm = (props)=> {
             zipcode:'',
             website:'',
             category:'',
+            like_count:0
 
         }
     )
