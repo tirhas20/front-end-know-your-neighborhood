@@ -53,7 +53,7 @@ const BusinessList = ({businesses,selectedZipcode,rowsPerPage,selectedCategory,o
         <table className="fl-table">
             <thead>
             <tr>
-                <th>BusinessId</th>
+                <th>Id</th>
                 <th>Name</th>
                 <th>Address</th>
                 <th>Website</th>
@@ -78,7 +78,7 @@ const BusinessList = ({businesses,selectedZipcode,rowsPerPage,selectedCategory,o
         <table className="fl-table">
             <thead>
             <tr>
-                <th>BusinessId</th>
+                <th>Id</th>
                 <th>Name</th>
                 <th>Address</th>
                 <th>Website</th>
