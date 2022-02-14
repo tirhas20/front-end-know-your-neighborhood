@@ -1,6 +1,7 @@
 .logout-button{
-    background-color:darkkhaki;
+    background-color:cornflowerblue;
     color:white ;
     width:100px;
     height:25px;
+    border:none;
 }
