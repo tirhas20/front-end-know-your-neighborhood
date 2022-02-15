@@ -12,7 +12,6 @@ const getFavoriteBusinessListJSX = (businesses,result,onRemoveBusinessFromFavori
     return (
         businesses.map((business) =>
         <tr key ={business.id}>
-                <td>{business.id}</td>
                 <td>{business.name}</td>
                 <td>{business.street},{business.city},{business.state},{business.zipcode}</td> 
                 <td>{business.website}</td>
@@ -36,7 +35,6 @@ const FavoriteList = ({businesses,favoriteLike_count,onRemoveBusinessFromFavorit
             <table className="fl-table">
                 <thead>
                 <tr>
-                    <th>BusinessId</th>
                     <th>Name</th>
                     <th>Address</th>
                     <th>Website</th>

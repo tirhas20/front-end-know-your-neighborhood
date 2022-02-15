@@ -11,7 +11,6 @@ const Business = ({id, name, street, city, state, zipcode, website, category,lik
     if(isAuthenticated){
         return (
             <tr>
-                <td>{id}</td>
                 <td>{name}</td>
                 <td>{street},{city},{state},{zipcode}</td>
                 <td>
@@ -37,7 +36,6 @@ const Business = ({id, name, street, city, state, zipcode, website, category,lik
     }else{
         return(
             <tr>
-                <td>{id}</td>
                 <td>{name}</td>
                 <td>{street},{city},{state},{zipcode}</td>
                 <td>
